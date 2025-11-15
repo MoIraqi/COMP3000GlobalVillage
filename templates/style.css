@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.culture-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.culture-card {
+    transition: all 0.3s ease;
+}
+
+.filter-option:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Animation for culture cards when they load */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.culture-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Delay animations for staggered effect */
+.culture-card:nth-child(1) { animation-delay: 0.1s; }
+.culture-card:nth-child(2) { animation-delay: 0.2s; }
+.culture-card:nth-child(3) { animation-delay: 0.3s; }
+.culture-card:nth-child(4) { animation-delay: 0.4s; }
+.culture-card:nth-child(5) { animation-delay: 0.5s; }
+.culture-card:nth-child(6) { animation-delay: 0.6s; }

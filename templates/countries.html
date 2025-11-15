@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Village • Countries</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="navbar.js" defer></script>
+  <script src="scripts/countries-data.js" defer></script>
+  <script src="scripts/migration.js" defer></script>
+  <script src="scripts/countries.js" defer></script>
+</head>
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <custom-navbar></custom-navbar>
+
+  <main class="container mx-auto px-6 pt-12 pb-20">
+    <nav id="breadcrumb" class="text-sm text-slate-500 mb-2"></nav>
+    <div class="mb-6 flex items-center justify-between gap-4">
+      <h1 id="continentTitle" class="text-3xl md:text-4xl font-bold">Countries</h1>
+      <a href="index.html" class="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:underline">← Back to map</a>
+    </div>
+    <div id="countryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6"></div>
+  </main>
+
+  <div id="detailOverlay" class="fixed inset-0 bg-black/40 hidden items-center justify-center p-4 z-50">
+    <div class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b">
+        <h3 id="detailTitle" class="text-xl font-semibold"></h3>
+        <button id="detailClose" class="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200">Close</button>
+      </div>
+      <div id="detailBody" class="p-6 grid md:grid-cols-2 gap-6"></div>
+    </div>
+  </div>
+</body>
+</html>

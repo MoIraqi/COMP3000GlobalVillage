@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Village • Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="navbar.js" defer></script>
+  <script src="scripts/world-map.js" defer></script>
+    <script src="scripts/countries-data.js" defer></script>
+<script src="scripts/migration.js" defer></script>
+<script src="scripts/countries.js" defer></script>
+
+</head>
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <custom-navbar></custom-navbar>
+
+  <header class="relative overflow-hidden">
+    <div class="container mx-auto px-6 pt-16 pb-10 md:pt-24 md:pb-16">
+      <h1 class="hero-title text-5xl md:text-7xl font-extrabold tracking-tight text-center">
+        <span class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+          Global Village
+        </span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-center text-lg md:text-xl text-slate-600 fade-in-delayed">
+        Explore cultures around the world — discover food, holidays and traditional clothing at a glance.
+      </p>
+    </div>
+
+    <div class="pointer-events-none absolute -top-16 -left-16 h-64 w-64 bg-indigo-200/50 rounded-full blur-3xl animate-orb"></div>
+    <div class="pointer-events-none absolute -bottom-16 -right-16 h-72 w-72 bg-fuchsia-200/50 rounded-full blur-3xl animate-orb2"></div>
+  </header>
+
+  <main class="container mx-auto px-6 pb-16">
+    <section aria-labelledby="map-title" class="mt-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 id="map-title" class="text-2xl md:text-3xl font-semibold">Choose a continent</h2>
+        <p class="text-sm text-slate-500">Click any region to browse its countries</p>
+      </div>
+
+      <div class="rounded-2xl bg-white/70 backdrop-blur shadow-lg p-4 md:p-6 border border-slate-100">
+        <div class="relative">
+          <svg id="worldMap" viewBox="0 0 1000 520" class="w-full aspect-[1000/520] select-none">
+            <defs>
+              <style>
+                .continent { fill: #e8edff; stroke: #94a3b8; stroke-width: 2; transition: all .25s ease; }
+                .continent:hover { fill: #c7d2fe; cursor: pointer; transform: translateY(-2px); }
+                .label { font: 600 16px system-ui; fill: #334155; }
+              </style>
+            </defs>
+
+            <g class="continent" data-continent="North America">
+              <path d="M90,90 C180,40 340,60 420,120 C460,150 460,210 410,240 C340,280 220,250 160,240 C120,230 70,190 90,90 Z"/>
+              <text class="label" x="230" y="170">North America</text>
+            </g>
+
+            <g class="continent" data-continent="South America">
+              <path d="M380,280 C420,260 480,270 520,310 C560,350 540,420 510,460 C480,500 430,480 430,430 C430,400 380,360 380,280 Z"/>
+              <text class="label" x="450" y="355">South America</text>
+            </g>
+
+            <g class="continent" data-continent="Europe">
+              <path d="M520,120 C570,90 660,90 700,120 C730,140 720,190 680,200 C630,210 560,200 520,170 C500,150 500,135 520,120 Z"/>
+              <text class="label" x="600" y="150">Europe</text>
+            </g>
+
+            <g class="continent" data-continent="Africa">
+              <path d="M580,210 C630,200 700,220 740,260 C770,290 770,360 730,400 C690,440 620,430 600,380 C590,350 540,320 560,260 C565,240 565,220 580,210 Z"/>
+              <text class="label" x="650" y="310">Africa</text>
+            </g>
+
+            <g class="continent" data-continent="Asia">
+              <path d="M680,120 C740,100 860,120 900,150 C940,180 930,230 880,250 C840,270 800,270 770,250 C740,230 690,200 680,170 C675,155 670,135 680,120 Z"/>
+              <text class="label" x="800" y="170">Asia</text>
+            </g>
+
+            <g class="continent" data-continent="Oceania">
+              <path d="M830,360 C860,360 900,380 910,410 C915,430 900,450 870,455 C840,460 810,440 800,420 C795,400 805,365 830,360 Z"/>
+              <text class="label" x="835" y="420">Oceania</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 text-center text-sm text-slate-500">
+    Built for your COMP3000 Global Village demo.
+  </footer>
+</body>
+</html>

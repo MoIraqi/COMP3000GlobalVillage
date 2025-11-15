@@ -1,0 +1,79 @@
+{
+  "Japan": {
+    "foods": ["Sushi", "Ramen", "Tempura", "Okonomiyaki"],
+    "holidays": ["Golden Week", "Obon Festival", "New Year (Shogatsu)"],
+    "music": ["Taiko Drumming", "Shamisen", "J-Pop"],
+    "clothes": ["Kimono", "Yukata"],
+    "traditions": ["Tea Ceremony", "Hanami (Cherry Blossom Viewing)", "Calligraphy (Shodo)"]
+  },
+  "France": {
+    "foods": ["Baguette", "Croissant", "Ratatouille", "Coq au Vin"],
+    "holidays": ["Bastille Day", "Christmas", "Labor Day (Fête du Travail)"],
+    "music": ["Chanson", "French Pop", "Classical"],
+    "clothes": ["Beret", "Haute Couture Fashion"],
+    "traditions": ["Wine Tasting", "Café Culture", "Art and Literature Celebrations"]
+  },
+  "India": {
+    "foods": ["Biryani", "Butter Chicken", "Dosa", "Samosas"],
+    "holidays": ["Diwali", "Holi", "Independence Day"],
+    "music": ["Classical (Hindustani & Carnatic)", "Bollywood"],
+    "clothes": ["Sari", "Kurta", "Sherwani"],
+    "traditions": ["Yoga", "Henna (Mehndi)", "Festival of Lights"]
+  },
+  "Mexico": {
+    "foods": ["Tacos", "Tamales", "Mole", "Chiles en Nogada"],
+    "holidays": ["Día de Muertos", "Cinco de Mayo", "Independence Day"],
+    "music": ["Mariachi", "Ranchera", "Norteño"],
+    "clothes": ["Charro Suit", "Huipil"],
+    "traditions": ["Piñatas", "Quinceañera", "Folk Dancing"]
+  },
+  "Egypt": {
+    "foods": ["Koshari", "Ful Medames", "Molokhia"],
+    "holidays": ["Eid al-Fitr", "Revolution Day", "Sham el-Nessim"],
+    "music": ["Tarab", "Shaabi", "Oud"],
+    "clothes": ["Galabeya", "Hijab"],
+    "traditions": ["Ramadan Lanterns (Fanoos)", "Nile Festivals", "Coffee Rituals"]
+  },
+  "Brazil": {
+    "foods": ["Feijoada", "Brigadeiro", "Pão de Queijo"],
+    "holidays": ["Carnaval", "Independence Day", "Festa Junina"],
+    "music": ["Samba", "Bossa Nova", "Forró"],
+    "clothes": ["Baiana Dress", "Beachwear"],
+    "traditions": ["Capoeira", "Festas Juninas", "Carnival Parades"]
+  },
+  "South Korea": {
+    "foods": ["Kimchi", "Bibimbap", "Bulgogi", "Tteokbokki"],
+    "holidays": ["Chuseok", "Seollal (Lunar New Year)"],
+    "music": ["K-Pop", "Pansori", "K-Drama OSTs"],
+    "clothes": ["Hanbok"],
+    "traditions": ["Tea Ceremony", "Ancestor Rites (Jesa)", "Bowing Customs"]
+  },
+  "Italy": {
+    "foods": ["Pizza", "Pasta", "Risotto", "Gelato"],
+    "holidays": ["Ferragosto", "Christmas", "Carnevale"],
+    "music": ["Opera", "Classical", "Italian Folk"],
+    "clothes": ["Designer Fashion", "Traditional Costumes"],
+    "traditions": ["Aperitivo", "Sunday Family Meals", "Art Festivals"]
+  },
+  "Nigeria": {
+    "foods": ["Jollof Rice", "Egusi Soup", "Suya"],
+    "holidays": ["Independence Day", "Eid al-Fitr", "Christmas"],
+    "music": ["Afrobeats", "Highlife", "Fuji"],
+    "clothes": ["Ankara", "Agbada", "Gele"],
+    "traditions": ["Naming Ceremonies", "Masquerade Festivals", "Drumming & Dance"]
+  },
+  "Australia": {
+    "foods": ["Pavlova", "Vegemite Toast", "Lamingtons", "Meat Pies"],
+    "holidays": ["Australia Day", "ANZAC Day", "Christmas"],
+    "music": ["Didgeridoo", "Rock", "Indigenous Music"],
+    "clothes": ["Akubra Hat", "Beachwear"],
+    "traditions": ["Barbecue Culture", "Surfing", "Aboriginal Dreamtime Stories"]
+  },
+  "Palestine": {
+    "foods": ["Musakhan", "Maqluba", "Kanafeh", "Falafel"],
+    "holidays": ["Eid al-Fitr", "Eid al-Adha", "Nakba Day"],
+    "music": ["Dabke Folk Dance Music", "Mawwal", "Traditional Oud Music"],
+    "clothes": ["Thobe (embroidered dress)", "Keffiyeh (traditional scarf)"],
+    "traditions": ["Olive Harvest Season", "Henna Nights before Weddings", "Hospitality with Arabic Coffee"]
+  }
+}
