@@ -1,116 +1,209 @@
-(function () {
-  function setBreadcrumb(continent){
-    const bc = document.getElementById('breadcrumb');
-    if(!bc) return;
-    const home = '<a href="../index.html" class="hover:underline">Home</a>';
-    if (!continent) { bc.innerHTML = home + ' / Countries'; return; }
-    const url = new URL('countries.html', location.href);
-    url.searchParams.set('continent', continent);
-    bc.innerHTML = `${home} / <a class="hover:underline" href="../countries.html">Countries</a> / <a class="hover:underline" href="${url.toString()}">${continent}</a>`;
+// scripts/countries.js
+
+(async function () {
+  const {
+    EXCLUDED_COUNTRIES,
+    mapRegion,
+    countryToCardData,
+    fetchAllCountries
+  } = window.GlobalVillageCountries || {};
+
+  const breadcrumbEl = document.getElementById("breadcrumb");
+  const titleEl = document.getElementById("continentTitle");
+  const gridEl = document.getElementById("countryGrid");
+  const overlayEl = document.getElementById("detailOverlay");
+  const overlayTitleEl = document.getElementById("detailTitle");
+  const overlayBodyEl = document.getElementById("detailBody");
+  const overlayCloseBtn = document.getElementById("detailClose");
+
+  let culturalData = {};
+
+  // Read ?continent= from URL, e.g. countries.html?continent=Europe
+  const params = new URLSearchParams(window.location.search);
+  const selectedContinent = params.get("continent"); // can be null
+
+  // Set page title + breadcrumb
+  function setHeaderAndBreadcrumb() {
+    if (selectedContinent) {
+      titleEl.textContent = selectedContinent;
+      breadcrumbEl.textContent = `Home • ${selectedContinent}`;
+    } else {
+      titleEl.textContent = "All Countries";
+      breadcrumbEl.textContent = "Home • All Countries";
+    }
   }
 
-  function getParam(name) {
-    return new URL(window.location.href).searchParams.get(name);
+  setHeaderAndBreadcrumb();
+
+  // Helper: format population nicely
+  function formatPopulation(pop) {
+    if (!pop) return "Unknown";
+    if (pop >= 1_000_000_000) return (pop / 1_000_000_000).toFixed(1) + "B";
+    if (pop >= 1_000_000) return (pop / 1_000_000).toFixed(1) + "M";
+    if (pop >= 1_000) return (pop / 1_000).toFixed(1) + "K";
+    return String(pop);
   }
 
-  function h(tag, attrs = {}, children = []) {
-    const el = document.createElement(tag);
-    Object.entries(attrs).forEach(([k, v]) => {
-      if (k === 'class') el.className = v;
-      else if (k === 'html') el.innerHTML = v;
-      else el.setAttribute(k, v);
-    });
-    (Array.isArray(children) ? children : [children]).forEach(c => {
-      if (c == null) return;
-      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
-    });
-    return el;
-  }
+  // Open the detail overlay for a single country
+  function openDetail(countryCard) {
+    const enrich = culturalData[countryCard.name] || null;
 
-  function renderGrid(continent) {
-    setBreadcrumb(continent);
-    const title = document.getElementById('continentTitle');
-    const grid = document.getElementById('countryGrid');
-    const data = (window.GV_COUNTRIES || []).filter(c => !continent || c.continent === continent);
-    title.textContent = continent ? `${continent} — Countries` : 'All Countries';
-    grid.innerHTML = '';
+    overlayTitleEl.textContent = countryCard.name;
 
-    data.forEach(country => {
-      const card = h('button', {
-        class: 'group relative rounded-xl bg-white shadow hover:shadow-md border border-slate-100 overflow-hidden',
-        'data-name': country.name
-      }, [
-        h('img', { src: country.flag, alt: `${country.name} flag`, class: 'w-full aspect-video object-cover' }),
-        h('div', { class: 'p-3 text-left' }, [
-          h('div', { class: 'font-semibold' }, [country.name]),
-          h('div', { class: 'text-xs text-slate-500' }, [country.continent])
-        ])
-      ]);
-      card.addEventListener('click', () => openDetail(country));
-      grid.appendChild(card);
-    });
-  }
+    // Build the detail body (basic info + cultural info if we have it)
+    const leftCol = `
+      <div class="space-y-3">
+        <img src="${countryCard.flag}" 
+             alt="Flag of ${countryCard.name}" 
+             class="w-full max-h-40 object-cover rounded-xl border border-slate-200 mb-3" />
+        <p><span class="font-semibold text-slate-700">Region:</span> ${countryCard.region}</p>
+        <p><span class="font-semibold text-slate-700">Capital:</span> ${countryCard.capital}</p>
+        <p><span class="font-semibold text-slate-700">Population:</span> ${formatPopulation(countryCard.population)}</p>
+      </div>
+    `;
 
-  function openDetail(country) {
-    const u = new URL(location.href);
-    u.searchParams.set('country', country.name);
-    history.replaceState({}, '', u.toString());
+    let rightCol = `
+      <div class="space-y-3 text-sm text-slate-700">
+        <p>This country is part of the Global Village dataset. Cultural details may be limited for now.</p>
+      </div>
+    `;
 
-    const overlay = document.getElementById('detailOverlay');
-    const title = document.getElementById('detailTitle');
-    let copyBtn = document.getElementById('detailCopy');
-    if(!copyBtn){
-      copyBtn = document.createElement('button');
-      copyBtn.id = 'detailCopy';
-      copyBtn.className = 'px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 ml-auto';
-      copyBtn.textContent = 'Copy link';
-      document.querySelector('#detailOverlay .border-b').appendChild(copyBtn);
-      copyBtn.addEventListener('click', async () => {
-        try { await navigator.clipboard.writeText(location.href);
-          copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy link',1200);
-        } catch(e){}
-      });
+    if (enrich) {
+      const foods = enrich.foods?.join(", ") || "—";
+      const holidays = enrich.holidays?.join(", ") || "—";
+      const music = enrich.music?.join(", ") || "—";
+      const clothes = enrich.clothes?.join(", ") || "—";
+      const traditions = enrich.traditions?.join(", ") || "—";
+
+      rightCol = `
+        <div class="space-y-4 text-sm text-slate-700">
+          <div>
+            <h4 class="font-semibold text-indigo-600 mb-1">Famous Foods</h4>
+            <p>${foods}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-indigo-600 mb-1">Key Holidays</h4>
+            <p>${holidays}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-indigo-600 mb-1">Music & Sound</h4>
+            <p>${music}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-indigo-600 mb-1">Traditional Clothing</h4>
+            <p>${clothes}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-indigo-600 mb-1">Traditions</h4>
+            <p>${traditions}</p>
+          </div>
+        </div>
+      `;
     }
 
-    const body = document.getElementById('detailBody');
-    title.textContent = country.name;
-    body.innerHTML = '';
-
-    const section = (title, items, key) =>
-      h('div', { class: 'space-y-2' }, [
-        h('h4', { class: 'text-base font-semibold text-indigo-700' }, [title]),
-        ...items.map(i => h('div', { class: 'flex items-center gap-3 p-2 rounded-lg bg-slate-50' }, [
-          key !== 'holidays' ? h('img', { src: i.image, alt: i.name, class: 'h-14 w-20 rounded object-cover' }) : '',
-          h('span', { class: 'font-medium' }, [i.name || i])
-        ]))
-      ]);
-
-    body.append(
-      section('Holidays', country.holidays.map(hd => ({ name: hd })), 'holidays'),
-      section('Foods', country.foods, 'foods'),
-      section('Traditional Clothing', country.clothes, 'clothes')
-    );
-
-    overlay.classList.remove('hidden');
-    overlay.classList.add('flex');
+    overlayBodyEl.innerHTML = leftCol + rightCol;
+    overlayEl.classList.remove("hidden");
+    overlayEl.classList.add("flex");
   }
 
   function closeDetail() {
-    const overlay = document.getElementById('detailOverlay');
-    overlay.classList.add('hidden');
-    overlay.classList.remove('flex');
+    overlayEl.classList.add("hidden");
+    overlayEl.classList.remove("flex");
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const continent = getParam('continent');
-    renderGrid(continent);
-
-    const deep = window.GV_openCountryFromQuery && window.GV_openCountryFromQuery();
-    if (deep) setTimeout(() => openDetail(deep), 50);
-
-    document.getElementById('detailClose').addEventListener('click', closeDetail);
-    document.getElementById('detailOverlay').addEventListener('click', e => {
-      if (e.target.id === 'detailOverlay') closeDetail();
+  if (overlayCloseBtn) {
+    overlayCloseBtn.addEventListener("click", closeDetail);
+  }
+  if (overlayEl) {
+    overlayEl.addEventListener("click", (e) => {
+      if (e.target === overlayEl) closeDetail();
     });
-  });
+  }
+
+  // Render all the cards into #countryGrid
+  function renderCountryGrid(countries) {
+    gridEl.innerHTML = "";
+
+    if (!countries.length) {
+      const div = document.createElement("div");
+      div.className = "col-span-full text-center text-slate-500 py-10";
+      div.textContent = "No countries available for this region.";
+      gridEl.appendChild(div);
+      return;
+    }
+
+    countries.forEach((c) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className =
+        "w-full text-left bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-50";
+
+      card.innerHTML = `
+        <img src="${c.flag}"
+             alt="Flag of ${c.name}"
+             class="w-full h-28 object-cover" />
+        <div class="p-3">
+          <h3 class="font-semibold text-slate-800 text-sm truncate">${c.name}</h3>
+          <p class="text-xs text-slate-500">${c.region}</p>
+          <p class="text-xs text-slate-500 mt-1">Capital: ${c.capital}</p>
+        </div>
+      `;
+
+      card.addEventListener("click", () => openDetail(c));
+      gridEl.appendChild(card);
+    });
+  }
+
+  // Main load function
+  async function init() {
+    try {
+      // Load cultural enrichment JSON (Japan, France, India, Palestine, etc.)
+      try {
+        const culturalResp = await fetch("culturalData.json");
+        if (culturalResp.ok) {
+          culturalData = await culturalResp.json();
+        } else {
+          culturalData = {};
+        }
+      } catch {
+        culturalData = {};
+      }
+
+      // Load all countries from API
+      let allCountries = await fetchAllCountries();
+
+      // Filter out excluded countries (💡 this removes Israel)
+      allCountries = allCountries.filter((c) => {
+        const name = c.name?.common || "";
+        return !EXCLUDED_COUNTRIES.has(name);
+      });
+
+      // Turn into our card data
+      let cardData = allCountries.map((country) => {
+        const base = countryToCardData(country);
+        // Attach mapped region (just to be safe)
+        base.region = mapRegion(country);
+        base.population = country.population || 0;
+        return base;
+      });
+
+      // Filter by continent if one is selected
+      if (selectedContinent) {
+        cardData = cardData.filter((c) => c.region === selectedContinent);
+      }
+
+      renderCountryGrid(cardData);
+    } catch (err) {
+      console.error(err);
+      gridEl.innerHTML = "";
+      const errorDiv = document.createElement("div");
+      errorDiv.className =
+        "col-span-full bg-red-50 text-red-700 p-4 rounded-lg text-sm";
+      errorDiv.textContent =
+        "Sorry, we could not load countries right now. Please try again later.";
+      gridEl.appendChild(errorDiv);
+    }
+  }
+
+  await init();
 })();
