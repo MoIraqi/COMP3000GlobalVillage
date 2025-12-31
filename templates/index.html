@@ -4,15 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Global Village • Home</title>
+
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="navbar.js" defer></script>
-  <script src="scripts/world-map.js" defer></script>
-    <script src="scripts/countries-data.js" defer></script>
-<script src="scripts/migration.js" defer></script>
-<script src="scripts/countries.js" defer></script>
 
+  <script src="navbar.js" defer></script>
+
+  <!-- D3 for real continent shapes -->
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
+
+  <!-- Your real world map renderer -->
+  <script src="scripts/real-world-map.js" defer></script>
 </head>
+
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
   <custom-navbar></custom-navbar>
 
@@ -41,45 +45,8 @@
 
       <div class="rounded-2xl bg-white/70 backdrop-blur shadow-lg p-4 md:p-6 border border-slate-100">
         <div class="relative">
-          <svg id="worldMap" viewBox="0 0 1000 520" class="w-full aspect-[1000/520] select-none">
-            <defs>
-              <style>
-                .continent { fill: #e8edff; stroke: #94a3b8; stroke-width: 2; transition: all .25s ease; }
-                .continent:hover { fill: #c7d2fe; cursor: pointer; transform: translateY(-2px); }
-                .label { font: 600 16px system-ui; fill: #334155; }
-              </style>
-            </defs>
-
-            <g class="continent" data-continent="North America">
-              <path d="M90,90 C180,40 340,60 420,120 C460,150 460,210 410,240 C340,280 220,250 160,240 C120,230 70,190 90,90 Z"/>
-              <text class="label" x="230" y="170">North America</text>
-            </g>
-
-            <g class="continent" data-continent="South America">
-              <path d="M380,280 C420,260 480,270 520,310 C560,350 540,420 510,460 C480,500 430,480 430,430 C430,400 380,360 380,280 Z"/>
-              <text class="label" x="450" y="355">South America</text>
-            </g>
-
-            <g class="continent" data-continent="Europe">
-              <path d="M520,120 C570,90 660,90 700,120 C730,140 720,190 680,200 C630,210 560,200 520,170 C500,150 500,135 520,120 Z"/>
-              <text class="label" x="600" y="150">Europe</text>
-            </g>
-
-            <g class="continent" data-continent="Africa">
-              <path d="M580,210 C630,200 700,220 740,260 C770,290 770,360 730,400 C690,440 620,430 600,380 C590,350 540,320 560,260 C565,240 565,220 580,210 Z"/>
-              <text class="label" x="650" y="310">Africa</text>
-            </g>
-
-            <g class="continent" data-continent="Asia">
-              <path d="M680,120 C740,100 860,120 900,150 C940,180 930,230 880,250 C840,270 800,270 770,250 C740,230 690,200 680,170 C675,155 670,135 680,120 Z"/>
-              <text class="label" x="800" y="170">Asia</text>
-            </g>
-
-            <g class="continent" data-continent="Oceania">
-              <path d="M830,360 C860,360 900,380 910,410 C915,430 900,450 870,455 C840,460 810,440 800,420 C795,400 805,365 830,360 Z"/>
-              <text class="label" x="835" y="420">Oceania</text>
-            </g>
-          </svg>
+          <!-- Real map gets rendered into here -->
+          <svg id="worldMap" class="w-full aspect-[1000/520] select-none"></svg>
         </div>
       </div>
     </section>
