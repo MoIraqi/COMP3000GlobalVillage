@@ -1,30 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .culture-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .culture-card {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .filter-option:hover {
-    background-color: rgba(59, 130, 246, 0.1);
+  background-color: rgba(59, 130, 246, 0.1);
 }
 
 /* Animation for culture cards when they load */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .culture-card {
-    animation: fadeIn 0.5s ease forwards;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 /* Delay animations for staggered effect */
@@ -67,3 +67,182 @@ body {
   pointer-events: none;
 }
 
+/* ===== Countries modal polish ===== */
+
+.gv-overlay {
+  /* Backdrop */
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Animation */
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.gv-overlay.is-open {
+  opacity: 1;
+}
+
+.gv-modal {
+  /* Modal motion */
+  transform: translateY(12px) scale(0.98);
+  opacity: 0;
+  transition: transform 240ms cubic-bezier(.2,.9,.2,1), opacity 240ms ease;
+
+  /* Subtle border */
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.gv-overlay.is-open .gv-modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.gv-close {
+  transition: transform 120ms ease;
+}
+
+.gv-close:active {
+  transform: scale(0.98);
+}
+
+/* Nice label/value layout */
+.gv-dl {
+  display: grid;
+  gap: 12px;
+}
+
+.gv-row {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(241, 245, 249, 0.6);
+}
+
+.gv-label {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.gv-value {
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.35rem;
+}
+
+.gv-flag {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #f8fafc;
+}
+
+.gv-chipwrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gv-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(99, 102, 241, 0.10);
+  color: #1e293b;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gv-overlay,
+  .gv-modal,
+  .gv-close {
+    transition: none !important;
+  }
+}
+
+.pixel-world-btn {
+  display: inline-block;
+  padding: 14px 26px;
+  background: #020617;
+  color: white;
+  font-family: monospace;
+  border: 3px solid #38bdf8;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pixel-world-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #38bdf8;
+}
+/* Pixel mode toggle (fixed top-right) */
+.pixel-mode-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  background: rgba(2, 6, 23, 0.85);
+  color: #fff;
+
+  border: 2px solid rgba(56, 189, 248, 0.9);
+  border-radius: 999px;
+
+  font-family: monospace;
+  font-size: 14px;
+  text-decoration: none;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pixel-mode-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 rgba(56, 189, 248, 0.65);
+}
+
+.pixel-mode-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #f472b6;
+  box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.25);
+}
+/* Landing page Pixel mode button under map */
+.pixel-mode-under-map {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 16px;
+  padding: 12px 18px;
+
+  background: #020617;
+  color: #fff;
+  border: 2px solid rgba(56, 189, 248, 0.9);
+  border-radius: 14px;
+
+  font-family: monospace;
+  font-size: 14px;
+  text-decoration: none;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pixel-mode-under-map:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 rgba(56, 189, 248, 0.65);
+}

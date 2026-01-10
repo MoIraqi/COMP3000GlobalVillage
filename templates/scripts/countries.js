@@ -11,12 +11,11 @@
   const breadcrumbEl = document.getElementById("breadcrumb");
   const titleEl = document.getElementById("continentTitle");
   const gridEl = document.getElementById("countryGrid");
+
   const overlayEl = document.getElementById("detailOverlay");
   const overlayTitleEl = document.getElementById("detailTitle");
   const overlayBodyEl = document.getElementById("detailBody");
   const overlayCloseBtn = document.getElementById("detailClose");
-
-  let culturalData = {};
 
   // Read ?continent= from URL, e.g. countries.html?continent=Europe
   const params = new URLSearchParams(window.location.search);
@@ -32,93 +31,139 @@
       breadcrumbEl.textContent = "Home • All Countries";
     }
   }
-
   setHeaderAndBreadcrumb();
 
-  // Helper: format population nicely
-  function formatPopulation(pop) {
-    if (!pop) return "Unknown";
-    if (pop >= 1_000_000_000) return (pop / 1_000_000_000).toFixed(1) + "B";
-    if (pop >= 1_000_000) return (pop / 1_000_000).toFixed(1) + "M";
-    if (pop >= 1_000) return (pop / 1_000).toFixed(1) + "K";
-    return String(pop);
+  function formatNumber(n) {
+    if (n === null || n === undefined || Number.isNaN(Number(n))) return "—";
+    return Number(n).toLocaleString();
+  }
+
+  function formatAreaKm2(area) {
+    if (!area || Number.isNaN(Number(area))) return "—";
+    return `${Number(area).toLocaleString()} km²`;
+  }
+
+  function formatLanguages(languagesObj) {
+    if (!languagesObj || typeof languagesObj !== "object") return "—";
+    const vals = Object.values(languagesObj).filter(Boolean);
+    return vals.length ? vals.join(", ") : "—";
+  }
+
+  function formatCurrencies(currenciesObj) {
+    if (!currenciesObj || typeof currenciesObj !== "object") return "—";
+    const entries = Object.entries(currenciesObj);
+    if (!entries.length) return "—";
+
+    // "GBP — British pound (£), EUR — Euro (€)"
+    return entries
+      .map(([code, info]) => {
+        const name = info?.name || "—";
+        const symbol = info?.symbol ? ` (${info.symbol})` : "";
+        return `${code} — ${name}${symbol}`;
+      })
+      .join(", ");
+  }
+
+  function formatTimezones(tzs) {
+    if (!Array.isArray(tzs) || !tzs.length) return "—";
+    return tzs.join(", ");
   }
 
   // Open the detail overlay for a single country
   function openDetail(countryCard) {
-    const enrich = culturalData[countryCard.name] || null;
-
     overlayTitleEl.textContent = countryCard.name;
 
-    // Build the detail body (basic info + cultural info if we have it)
-    const leftCol = `
-      <div class="space-y-3">
-        <img src="${countryCard.flag}" 
-             alt="Flag of ${countryCard.name}" 
-             class="w-full max-h-40 object-cover rounded-xl border border-slate-200 mb-3" />
-        <p><span class="font-semibold text-slate-700">Region:</span> ${countryCard.region}</p>
-        <p><span class="font-semibold text-slate-700">Capital:</span> ${countryCard.capital}</p>
-        <p><span class="font-semibold text-slate-700">Population:</span> ${formatPopulation(countryCard.population)}</p>
-      </div>
-    `;
+    const timezonesChips =
+      Array.isArray(countryCard.timezones) && countryCard.timezones.length
+        ? `<div class="gv-chipwrap">${countryCard.timezones
+            .map((tz) => `<span class="gv-chip">${tz}</span>`)
+            .join("")}</div>`
+        : "—";
 
-    let rightCol = `
-      <div class="space-y-3 text-sm text-slate-700">
-        <p>This country is part of the Global Village dataset. Cultural details may be limited for now.</p>
-      </div>
-    `;
+    overlayBodyEl.innerHTML = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <img
+            src="${countryCard.flag}"
+            alt="Flag of ${countryCard.name}"
+            class="gv-flag w-full h-44 object-contain rounded-2xl"
+          />
 
-    if (enrich) {
-      const foods = enrich.foods?.join(", ") || "—";
-      const holidays = enrich.holidays?.join(", ") || "—";
-      const music = enrich.music?.join(", ") || "—";
-      const clothes = enrich.clothes?.join(", ") || "—";
-      const traditions = enrich.traditions?.join(", ") || "—";
-
-      rightCol = `
-        <div class="space-y-4 text-sm text-slate-700">
-          <div>
-            <h4 class="font-semibold text-indigo-600 mb-1">Famous Foods</h4>
-            <p>${foods}</p>
-          </div>
-          <div>
-            <h4 class="font-semibold text-indigo-600 mb-1">Key Holidays</h4>
-            <p>${holidays}</p>
-          </div>
-          <div>
-            <h4 class="font-semibold text-indigo-600 mb-1">Music & Sound</h4>
-            <p>${music}</p>
-          </div>
-          <div>
-            <h4 class="font-semibold text-indigo-600 mb-1">Traditional Clothing</h4>
-            <p>${clothes}</p>
-          </div>
-          <div>
-            <h4 class="font-semibold text-indigo-600 mb-1">Traditions</h4>
-            <p>${traditions}</p>
+          <div class="text-sm text-slate-600 leading-relaxed">
+            <span class="font-semibold text-slate-800">Region / Subregion:</span>
+            ${countryCard.apiRegion || "—"} / ${countryCard.subregion || "—"}
           </div>
         </div>
-      `;
-    }
 
-    overlayBodyEl.innerHTML = leftCol + rightCol;
+        <div class="gv-dl">
+          <div class="gv-row">
+            <div class="gv-label">Capital</div>
+            <div class="gv-value">${countryCard.capital || "—"}</div>
+          </div>
+
+          <div class="gv-row">
+            <div class="gv-label">Population</div>
+            <div class="gv-value">${formatNumber(countryCard.population)}</div>
+          </div>
+
+          <div class="gv-row">
+            <div class="gv-label">Area</div>
+            <div class="gv-value">${formatAreaKm2(countryCard.area)}</div>
+          </div>
+
+          <div class="gv-row">
+            <div class="gv-label">Languages</div>
+            <div class="gv-value">${formatLanguages(countryCard.languages)}</div>
+          </div>
+
+          <div class="gv-row">
+            <div class="gv-label">Currencies</div>
+            <div class="gv-value">${formatCurrencies(countryCard.currencies)}</div>
+          </div>
+
+          <div class="gv-row">
+            <div class="gv-label">Timezones</div>
+            <div class="gv-value">${timezonesChips}</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Show overlay, then animate in
     overlayEl.classList.remove("hidden");
     overlayEl.classList.add("flex");
+
+    requestAnimationFrame(() => {
+      overlayEl.classList.add("is-open");
+    });
+
+    overlayCloseBtn?.focus();
   }
 
   function closeDetail() {
-    overlayEl.classList.add("hidden");
-    overlayEl.classList.remove("flex");
+    overlayEl.classList.remove("is-open");
+
+    // After transition, hide completely
+    window.setTimeout(() => {
+      overlayEl.classList.add("hidden");
+      overlayEl.classList.remove("flex");
+    }, 250);
   }
 
-  if (overlayCloseBtn) {
-    overlayCloseBtn.addEventListener("click", closeDetail);
-  }
-  if (overlayEl) {
-    overlayEl.addEventListener("click", (e) => {
-      if (e.target === overlayEl) closeDetail();
-    });
-  }
+  // Close button
+  overlayCloseBtn?.addEventListener("click", closeDetail);
+
+  // Click outside modal closes
+  overlayEl?.addEventListener("click", (e) => {
+    if (e.target === overlayEl) closeDetail();
+  });
+
+  // ESC closes
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlayEl && !overlayEl.classList.contains("hidden")) {
+      closeDetail();
+    }
+  });
 
   // Render all the cards into #countryGrid
   function renderCountryGrid(countries) {
@@ -157,22 +202,10 @@
   // Main load function
   async function init() {
     try {
-      // Load cultural enrichment JSON (Japan, France, India, Palestine, etc.)
-      try {
-        const culturalResp = await fetch("culturalData.json");
-        if (culturalResp.ok) {
-          culturalData = await culturalResp.json();
-        } else {
-          culturalData = {};
-        }
-      } catch {
-        culturalData = {};
-      }
-
       // Load all countries from API
       let allCountries = await fetchAllCountries();
 
-      // Filter out excluded countries (💡 this removes Israel)
+      // Filter out excluded countries (removes Israel)
       allCountries = allCountries.filter((c) => {
         const name = c.name?.common || "";
         return !EXCLUDED_COUNTRIES.has(name);
@@ -181,9 +214,7 @@
       // Turn into our card data
       let cardData = allCountries.map((country) => {
         const base = countryToCardData(country);
-        // Attach mapped region (just to be safe)
-        base.region = mapRegion(country);
-        base.population = country.population || 0;
+        base.region = mapRegion(country); // ensure mapped region is consistent
         return base;
       });
 

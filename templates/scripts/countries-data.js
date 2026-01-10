@@ -11,27 +11,38 @@ function mapRegion(country) {
 
   // --- Americas split ---
   if (region === "Americas") {
-    if (subregion.includes("South")) return "South America";
+    if ((subregion || "").includes("South")) return "South America";
     return "North America"; // includes North, Central, Caribbean
   }
 
   // Antarctic → group under Oceania to avoid empty categories
   if (region === "Antarctic") return "Oceania";
 
-  // Use direct regions for:
-  // Asia, Europe, Africa, Oceania
+  // Use direct regions for: Asia, Europe, Africa, Oceania
   return region || "Unknown";
 }
 
-// Format data for cards
+// Format data for cards + detail overlay
 function countryToCardData(country) {
   const name = country.name?.common || "Unknown";
+
+  // For filtering in your app (continent-style)
   const region = mapRegion(country);
+
+  // For display (actual API region/subregion)
+  const apiRegion = country.region || "—";
+  const subregion = country.subregion || "—";
+
   const capital = Array.isArray(country.capital)
     ? country.capital[0]
-    : country.capital || "—";
+    : (country.capital || "—");
 
   const population = country.population || 0;
+  const area = country.area || 0;
+
+  const languages = country.languages || {};     // { eng: "English", ... }
+  const currencies = country.currencies || {};   // { GBP: { name, symbol }, ... }
+  const timezones = Array.isArray(country.timezones) ? country.timezones : [];
 
   const flag =
     (country.flags && (country.flags.png || country.flags.svg)) ||
@@ -39,9 +50,15 @@ function countryToCardData(country) {
 
   return {
     name,
-    region,
+    region,      // mapped continent label (used by your filter)
+    apiRegion,   // real region from API (shown in detail)
+    subregion,
     capital,
     population,
+    area,
+    languages,
+    currencies,
+    timezones,
     flag
   };
 }
@@ -49,7 +66,7 @@ function countryToCardData(country) {
 // Fetch all countries from REST Countries API
 async function fetchAllCountries() {
   const url =
-    "https://restcountries.com/v3.1/all?fields=name,region,subregion,flags,capital,population";
+    "https://restcountries.com/v3.1/all?fields=name,region,subregion,flags,capital,population,area,languages,currencies,timezones";
 
   const resp = await fetch(url);
   if (!resp.ok) throw new Error("Failed to fetch countries");

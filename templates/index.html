@@ -20,6 +20,7 @@
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
   <custom-navbar></custom-navbar>
 
+  <!-- HERO -->
   <header class="relative overflow-hidden">
     <div class="container mx-auto px-6 pt-16 pb-10 md:pt-24 md:pb-16">
       <h1 class="hero-title text-5xl md:text-7xl font-extrabold tracking-tight text-center">
@@ -28,7 +29,7 @@
         </span>
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-center text-lg md:text-xl text-slate-600 fade-in-delayed">
-        Explore cultures around the world — discover food, holidays and traditional clothing at a glance.
+        Welcome to Global Village! Step inside and discover what OUR world has to offer!
       </p>
     </div>
 
@@ -36,6 +37,7 @@
     <div class="pointer-events-none absolute -bottom-16 -right-16 h-72 w-72 bg-fuchsia-200/50 rounded-full blur-3xl animate-orb2"></div>
   </header>
 
+  <!-- MAIN -->
   <main class="container mx-auto px-6 pb-16">
     <section aria-labelledby="map-title" class="mt-4">
       <div class="flex items-center justify-between mb-4">
@@ -43,15 +45,25 @@
         <p class="text-sm text-slate-500">Click any region to browse its countries</p>
       </div>
 
+      <!-- MAP CARD -->
       <div class="rounded-2xl bg-white/70 backdrop-blur shadow-lg p-4 md:p-6 border border-slate-100">
         <div class="relative">
-          <!-- Real map gets rendered into here -->
+          <!-- Real map renders here -->
           <svg id="worldMap" class="w-full aspect-[1000/520] select-none"></svg>
+        </div>
+
+        <!-- ✅ PIXEL MODE BUTTON (UNDER MAP) -->
+        <div class="mt-5 flex justify-center">
+          <a class="pixel-mode-under-map" href="pixel-world.html" aria-label="Switch to Pixel mode">
+            <span class="pixel-mode-dot"></span>
+            Pixel mode
+          </a>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="py-10 text-center text-sm text-slate-500">
     Created by Mo
   </footer>
