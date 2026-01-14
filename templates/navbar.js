@@ -248,7 +248,7 @@ class CustomNavbar extends HTMLElement {
 
     btn.addEventListener("click", toggleMenu);
 
-    // Close menu when you click a link
+    // Close menu when clicking a link
     this.shadowRoot.querySelectorAll(".mobileLinks a").forEach((a) => {
       a.addEventListener("click", closeMenu);
     });
@@ -258,7 +258,7 @@ class CustomNavbar extends HTMLElement {
       if (e.key === "Escape") closeMenu();
     });
 
-    // Close if you resize back to desktop
+
     window.addEventListener("resize", () => {
       if (window.innerWidth > 760) closeMenu();
     });

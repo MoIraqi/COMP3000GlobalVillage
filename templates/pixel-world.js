@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 const playerImg = new Image();
 playerImg.src = "assets/playerboat.png";
 
-// ✅ SAFE OCEAN SPAWN (top-left Atlantic)
+// SAFE OCEAN SPAWN so player doesnt touch continent immediately (top-left Atlantic)
 const player = {
   x: 60,      // ocean
   y: 320,     // ocean
@@ -17,8 +17,8 @@ const player = {
 let spawnProtection = true;
 setTimeout(() => spawnProtection = false, 600);
 
-// Continent hitboxes (aligned to map)
-// 🔥 TIGHT continent hitboxes (closer to land pixels)
+// Continent hitboxes (aligned to the map)
+//  TIGHT continent hitboxes (closer to land pixels)
 const continents = [
   {
     name: "North America",
@@ -125,7 +125,7 @@ function checkContinent() {
 }
 
 playerImg.onload = () => update();
-// DEBUG: show hitboxes (remove later)
+
 ctx.strokeStyle = "rgba(255,0,0,0.6)";
 continents.forEach(c => {
   ctx.strokeRect(c.x, c.y, c.w, c.h);

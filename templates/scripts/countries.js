@@ -211,7 +211,7 @@
         return !EXCLUDED_COUNTRIES.has(name);
       });
 
-      // Turn into our card data
+      // Turn into card data
       let cardData = allCountries.map((country) => {
         const base = countryToCardData(country);
         base.region = mapRegion(country); // ensure mapped region is consistent

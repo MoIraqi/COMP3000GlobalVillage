@@ -1,18 +1,21 @@
 // scripts/guess-flag.js
-// 10-question flag quiz + streak + confetti + micro-animations
+// Guess The Flag game logic
+// 10 questions, score + streak tracking, confetti, and subtle animations
 
 const EXCLUDED_COUNTRIES = new Set(["Israel"]);
+
+// Number of questions per quiz
 const TOTAL_QUESTIONS = 10;
 
-const API_URL =
+const API_URL = // REST Countries API
   "https://restcountries.com/v3.1/all?fields=name,flags,independent";
 
 function pickRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr[Math.floor(Math.random() * arr.length)]; // Pick a random item from an array
 }
 
 function shuffle(arr) {
-  const a = arr.slice();
+  const a = arr.slice(); // Shuffle an array without changing the original
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
@@ -22,6 +25,7 @@ function shuffle(arr) {
 
 function normaliseName(country) {
   return country?.name?.common?.trim() || "Unknown";
+// Safely extract a clean country name
 }
 
 function getFlagUrl(country) {
@@ -86,7 +90,7 @@ function ensureConfettiCanvas() {
   return canvas;
 }
 
-function confettiBurst({
+function confettiBurst({ // Trigger a short confetti burst animation
   durationMs = 1100,
   particleCount = 110,
   gravity = 0.12,
@@ -155,7 +159,7 @@ function confettiBurst({
   requestAnimationFrame(step);
 }
 
-/* --------------------------- Micro Animations --------------------------- */
+/* Micro Animations */
 function injectMicroStylesOnce() {
   if (document.getElementById("guessFlagMicroStyles")) return;
 
@@ -178,7 +182,7 @@ function injectMicroStylesOnce() {
 (function () {
   injectMicroStylesOnce();
 
-  // Elements you already have
+  // Elements
   const qIndexEl = document.getElementById("qIndex");
   const qTotalEl = document.getElementById("qTotal");
   const scoreEl = document.getElementById("score");

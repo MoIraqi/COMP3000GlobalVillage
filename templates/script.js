@@ -2,23 +2,21 @@
 // Uses REST Countries API: https://restcountries.com/v3.1/all
 
 // Lightweight list of Arab League members to tag "Arab" region
-const ARAB_LEAGUE = new Set([
+new Set([
   "Algeria","Bahrain","Comoros","Djibouti","Egypt","Iraq","Jordan","Kuwait",
   "Lebanon","Libya","Mauritania","Morocco","Oman","Palestine","Qatar",
   "Saudi Arabia","Somalia","Sudan","Syria","Tunisia","United Arab Emirates","Yemen"
 ]);
-
 // Countries to hide from display (non-political content policy)
 const EXCLUDED_COUNTRIES = new Set(["Israel"]);
 
-// Helper: map REST Countries region/subregion into our sidebar regions
+
 function mapRegion(country) {
   const region = country.region || "";
   const subregion = country.subregion || "";
 
-  // Special-case Arab League
-  const commonName = country.name?.common || "";
-  if (ARAB_LEAGUE.has(commonName)) return "Arab";
+
+
 
   // Map Americas into North/South using subregion
   if (region === "Americas") {
@@ -27,16 +25,16 @@ function mapRegion(country) {
     return "North America";
   }
 
-  // Keep other regions as-is but match our sidebar labels
+
   if (region === "Antarctic") return "Oceania"; // fold into Oceania for now
   return region || "Unknown";
 }
 
-// Build a culture object from a REST Countries item
+// building a culture object from a REST Countries item
 function countryToCulture(country, id) {
   const image = (country.flags && (country.flags.png || country.flags.svg)) || "https://placehold.co/640x360";
 
-  // Default placeholders (these will be overwritten by culturalData.json if available)
+  // Default placeholders
   return {
     id,
     name: country.name?.common || "Unknown",

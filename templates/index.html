@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic page setup -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Page title (shows in browser tab) -->
   <title>Global Village • Home</title>
 
+  <!-- Custom global styles -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Tailwind for fast, clean styling -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Reusable navigation bar component -->
   <script src="navbar.js" defer></script>
 
-  <!-- D3 for real continent shapes -->
+  <!-- D3.js library (used for rendering real continent shapes) -->
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
 
-  <!-- Your real world map renderer -->
+  <!-- Custom script that draws and handles the interactive world map -->
   <script src="scripts/real-world-map.js" defer></script>
 </head>
 
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <!-- Site-wide navigation -->
   <custom-navbar></custom-navbar>
 
-  <!-- HERO -->
+
   <header class="relative overflow-hidden">
     <div class="container mx-auto px-6 pt-16 pb-10 md:pt-24 md:pb-16">
+
+      <!-- Main title -->
       <h1 class="hero-title text-5xl md:text-7xl font-extrabold tracking-tight text-center">
         <span class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
           Global Village
         </span>
       </h1>
+
+      <!-- Short intro tagline -->
       <p class="mx-auto mt-5 max-w-2xl text-center text-lg md:text-xl text-slate-600 fade-in-delayed">
         Welcome to Global Village! Step inside and discover what OUR world has to offer!
       </p>
@@ -37,24 +49,36 @@
     <div class="pointer-events-none absolute -bottom-16 -right-16 h-72 w-72 bg-fuchsia-200/50 rounded-full blur-3xl animate-orb2"></div>
   </header>
 
-  <!-- MAIN -->
+
   <main class="container mx-auto px-6 pb-16">
     <section aria-labelledby="map-title" class="mt-4">
+
+      <!-- Section heading & helper text -->
       <div class="flex items-center justify-between mb-4">
-        <h2 id="map-title" class="text-2xl md:text-3xl font-semibold">Choose a continent</h2>
-        <p class="text-sm text-slate-500">Click any region to browse its countries</p>
+        <h2 id="map-title" class="text-2xl md:text-3xl font-semibold">
+          Choose a continent
+        </h2>
+        <p class="text-sm text-slate-500">
+          Click any region to browse its countries
+        </p>
       </div>
 
-      <!-- MAP CARD -->
+      <!-- Map container card -->
       <div class="rounded-2xl bg-white/70 backdrop-blur shadow-lg p-4 md:p-6 border border-slate-100">
         <div class="relative">
-          <!-- Real map renders here -->
-          <svg id="worldMap" class="w-full aspect-[1000/520] select-none"></svg>
+
+          <svg
+            id="worldMap"
+            class="w-full aspect-[1000/520] select-none">
+          </svg>
         </div>
 
-        <!-- ✅ PIXEL MODE BUTTON (UNDER MAP) -->
+        <!-- Pixel world mode link (alternative experience) -->
         <div class="mt-5 flex justify-center">
-          <a class="pixel-mode-under-map" href="pixel-world.html" aria-label="Switch to Pixel mode">
+          <a
+            class="pixel-mode-under-map"
+            href="pixel-world.html"
+            aria-label="Switch to Pixel mode">
             <span class="pixel-mode-dot"></span>
             Pixel mode
           </a>
@@ -63,7 +87,7 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!--footer -->
   <footer class="py-10 text-center text-sm text-slate-500">
     Created by Mo
   </footer>

@@ -25,8 +25,7 @@
     const res = await fetch(GEOJSON_URL);
     if (!res.ok) throw new Error("Failed to load continent GeoJSON");
     const geojson = await res.json();
-
-    // ✅ IMPORTANT: this GeoJSON is ALREADY projected, so use geoIdentity (not Mercator)
+    
     const projection = d3.geoIdentity().reflectY(true).fitSize([WIDTH, HEIGHT], geojson);
     const path = d3.geoPath(projection);
 
