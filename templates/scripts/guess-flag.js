@@ -359,13 +359,13 @@ function handleAnswer(btn, chosenName) {
     correctStreak += 1;
     updateStreakUI();
 
-    feedbackEl.textContent = "Correct bestie ✅";
+    feedbackEl.textContent = "Correct ✅";
     revealCorrectAndWrong("__none__");
 
     // 🎉 CONFETTI EVERY TIME 🎉
     confettiBurst();
   } else {
-    feedbackEl.textContent = `Nope bestie ❌ It was ${currentCorrectName}.`;
+    feedbackEl.textContent = `Nope ❌ It was ${currentCorrectName}.`;
 
     correctStreak = 0;
     updateStreakUI();

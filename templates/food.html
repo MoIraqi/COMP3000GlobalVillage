@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Village • Food Explorer</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="navbar.js" defer></script>
+  <script src="scripts/food.js" defer></script>
+</head>
+
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <custom-navbar></custom-navbar>
+
+  <main class="container mx-auto px-6 pt-12 pb-20">
+    <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold">Food Explorer 🍜✨</h1>
+        <p class="text-slate-600 mt-1">
+          Browse iconic foods around the world • save favourites • tap cards for details
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          id="randomBtn"
+          class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
+        >
+          Surprise me 🎲
+        </button>
+
+        <!-- NEW: Shuffle button -->
+        <button
+          id="shuffleBtn"
+          class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition font-medium"
+        >
+          Shuffle 🔄
+        </button>
+
+        <button
+          id="clearFavsBtn"
+          class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition font-medium"
+          title="Remove all favourites"
+        >
+          Clear favs
+        </button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <section class="rounded-2xl bg-white/70 backdrop-blur shadow-lg border border-slate-100 p-4 md:p-6">
+      <div class="grid md:grid-cols-12 gap-3 items-center">
+        <div class="md:col-span-5">
+          <label class="text-sm font-medium text-slate-700" for="searchInput">Search</label>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Try: sushi, biryani, tacos, kanafeh…"
+            class="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div class="md:col-span-3">
+          <label class="text-sm font-medium text-slate-700" for="continentSelect">Continent</label>
+          <select
+            id="continentSelect"
+            class="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">All</option>
+            <option>Europe</option>
+            <option>Africa</option>
+            <option>Asia</option>
+            <option>North America</option>
+            <option>South America</option>
+            <option>Oceania</option>
+          </select>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="text-sm font-medium text-slate-700" for="sortSelect">Sort</label>
+          <select
+            id="sortSelect"
+            class="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="popular">Most foods first</option>
+            <option value="az">A → Z</option>
+            <option value="za">Z → A</option>
+          </select>
+        </div>
+
+        <div class="md:col-span-2 flex items-end gap-3">
+          <label class="inline-flex items-center gap-2 text-sm font-medium text-slate-700 select-none">
+            <input id="onlyFavs" type="checkbox" class="w-4 h-4 accent-indigo-600" />
+            Favourites only
+          </label>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+        <span class="px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600">
+          Items: <span id="countBadge" class="font-semibold text-slate-800">0</span>
+        </span>
+        <span class="px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600">
+          Favs: <span id="favBadge" class="font-semibold text-slate-800">0</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="mt-6">
+      <div id="foodGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"></div>
+
+      <div id="emptyState" class="hidden mt-10 text-center text-slate-500">
+        <p class="text-lg font-semibold">No matches 😭</p>
+        <p class="mt-1">Try a different search or remove filters.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="detailOverlay" class="fixed inset-0 bg-black/40 hidden items-center justify-center p-4 z-50">
+    <div class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b">
+        <div class="flex items-center gap-3">
+          <img id="modalFlag" alt="" class="w-12 h-8 object-cover rounded-md border border-slate-200" />
+          <div>
+            <h3 id="modalTitle" class="text-xl font-semibold"></h3>
+            <p id="modalSubtitle" class="text-sm text-slate-500"></p>
+          </div>
+        </div>
+        <button id="detailClose" class="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200">Close</button>
+      </div>
+
+      <div class="p-6 grid md:grid-cols-2 gap-6">
+        <div>
+          <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+            <img id="modalFoodImg" alt="" class="w-full h-64 object-cover" />
+          </div>
+
+          <div class="mt-4 flex items-center gap-2">
+            <button
+              id="modalFavBtn"
+              class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition font-medium"
+            >
+              ☆ Favourite
+            </button>
+
+            <button
+              id="modalCopyBtn"
+              class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition font-medium"
+            >
+              Copy name
+            </button>
+
+            <span id="modalToast" class="text-sm text-slate-500"></span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <p class="text-sm text-slate-600">Food</p>
+            <p id="modalFoodName" class="text-lg font-semibold"></p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <p class="text-sm text-slate-600">Country</p>
+            <p id="modalCountry" class="text-lg font-semibold"></p>
+            <p id="modalContinent" class="text-sm text-slate-500 mt-1"></p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <p class="text-sm text-slate-600">Try this</p>
+            <ul id="modalTips" class="mt-2 space-y-1 text-sm text-slate-700 list-disc pl-5"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="py-10 text-center text-sm text-slate-500">
+    Created by Mo
+  </footer>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Village • About</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="navbar.js" defer></script>
+  <script src="scripts/about.js" defer></script>
+
+  <style>
+    /* Scroll Progress Bar */
+    #scrollProgressWrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      z-index: 99999;
+      background: rgba(255,255,255,.6);
+      backdrop-filter: blur(10px);
+    }
+
+    #scrollProgressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4f46e5, #7c3aed, #d946ef);
+      transition: width 80ms linear;
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 520ms ease, transform 520ms ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Floating globes */
+    .bg-globe {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .globe {
+      position: absolute;
+      font-size: 64px;
+      opacity: 0.15;
+      animation: floaty 10s ease-in-out infinite;
+    }
+
+    .globe.g1 { top: 10%; left: 10%; }
+    .globe.g2 { top: 20%; right: 12%; }
+    .globe.g3 { bottom: 15%; left: 18%; }
+    .globe.g4 { bottom: 10%; right: 20%; }
+
+    @keyframes floaty {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+
+  <div id="scrollProgressWrap">
+    <div id="scrollProgressBar"></div>
+  </div>
+
+  <custom-navbar></custom-navbar>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="bg-globe">
+      <div class="globe g1">🌍</div>
+      <div class="globe g2">🌎</div>
+      <div class="globe g3">🌏</div>
+      <div class="globe g4">🌍</div>
+    </div>
+
+    <div class="container mx-auto px-6 pt-20 pb-16 text-center relative">
+      <h1 class="reveal text-5xl md:text-6xl font-extrabold">
+        Discover Our World 🌍
+      </h1>
+
+      <p class="reveal mt-6 max-w-3xl mx-auto text-lg md:text-xl text-slate-600">
+        Global Village helps you explore cultures from around the world in a fun and simple way.
+        Learn about traditions, food, celebrations, and test your knowledge with interactive games.
+      </p>
+    </div>
+  </section>
+
+  <!-- WHAT YOU CAN DO -->
+  <section class="container mx-auto px-6 py-16">
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="reveal bg-white rounded-2xl shadow-md border border-slate-100 p-6 hover:shadow-xl transition">
+        <div class="text-4xl mb-4">🗺️</div>
+        <h3 class="text-xl font-semibold mb-2">Explore Continents</h3>
+        <p class="text-slate-600 text-sm">
+          Click on a continent and discover countries from around the world.
+        </p>
+      </div>
+
+      <div class="reveal bg-white rounded-2xl shadow-md border border-slate-100 p-6 hover:shadow-xl transition">
+        <div class="text-4xl mb-4">🍜</div>
+        <h3 class="text-xl font-semibold mb-2">Learn About Culture</h3>
+        <p class="text-slate-600 text-sm">
+          Discover traditional foods, holidays, music and clothing.
+        </p>
+      </div>
+
+      <div class="reveal bg-white rounded-2xl shadow-md border border-slate-100 p-6 hover:shadow-xl transition">
+        <div class="text-4xl mb-4">🏁</div>
+        <h3 class="text-xl font-semibold mb-2">Play & Test Yourself</h3>
+        <p class="text-slate-600 text-sm">
+          Try the Guess The Flag quiz and see how many countries you recognise.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="container mx-auto px-6 pb-20">
+    <div class="reveal max-w-5xl mx-auto rounded-2xl bg-white shadow-lg border border-slate-200 p-8 text-center">
+      <h2 class="text-2xl font-bold text-slate-800">Explore the world at a glance</h2>
+
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+
+        <div>
+          <p class="stat-number text-3xl font-extrabold text-indigo-600" data-count="195">0</p>
+          <p class="text-sm text-slate-500 mt-1">Countries</p>
+        </div>
+
+        <div>
+          <p class="stat-number text-3xl font-extrabold text-indigo-600" data-count="6">0</p>
+          <p class="text-sm text-slate-500 mt-1">Continents</p>
+        </div>
+
+        <div>
+          <p class="stat-number text-3xl font-extrabold text-indigo-600" data-count="10">0</p>
+          <p class="text-sm text-slate-500 mt-1">Quiz Questions</p>
+        </div>
+
+        <div>
+          <p class="stat-number text-3xl font-extrabold text-indigo-600" data-count="5">0</p>
+          <p class="text-sm text-slate-500 mt-1">Culture Topics</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FUN FACT SECTION -->
+  <section class="container mx-auto px-6 pb-24">
+    <div class="reveal max-w-3xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200 p-8 text-center relative overflow-hidden">
+
+      <div class="text-4xl mb-4">🌟</div>
+
+      <h2 class="text-2xl font-bold text-slate-800 mb-3">
+        Did You Know?
+      </h2>
+
+      <p id="funFactText"
+         class="text-slate-600 text-lg leading-relaxed min-h-[84px] transition-opacity duration-200">
+        Loading a fun world fact...
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-3 justify-center">
+        <button
+          id="newFactBtn"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+          Show Me Another Fact ✨
+        </button>
+
+        <button
+          id="favFactBtn"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 font-medium hover:bg-slate-50 transition">
+          ❤️ Favourite
+        </button>
+
+        <a
+          id="exploreCountryBtn"
+          href="countries.html"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 font-medium hover:bg-slate-50 transition hidden">
+          Explore This Country →
+        </a>
+      </div>
+
+      <div class="mt-8 text-left">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-slate-800">Your favourite facts</h3>
+          <button id="clearFavsBtn" class="text-xs text-slate-500 hover:text-slate-700 transition">
+            Clear all
+          </button>
+        </div>
+
+        <div id="favsList" class="mt-3 space-y-2">
+          <p class="text-sm text-slate-500">No favourites yet — tap ❤️ to save one.</p>
+        </div>
+      </div>
+
+      <canvas id="confettiCanvas" class="absolute inset-0 pointer-events-none"></canvas>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center text-sm text-slate-500">
+    Created by Mo 🌍
+  </footer>
+
+</body>
+</html>

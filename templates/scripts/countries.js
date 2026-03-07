@@ -17,9 +17,12 @@
   const overlayBodyEl = document.getElementById("detailBody");
   const overlayCloseBtn = document.getElementById("detailClose");
 
-  // Read ?continent= from URL, e.g. countries.html?continent=Europe
+  // Read URL params:
+  // countries.html?continent=Europe
+  // countries.html?country=France
   const params = new URLSearchParams(window.location.search);
   const selectedContinent = params.get("continent"); // can be null
+  const selectedCountry = params.get("country"); // can be null
 
   // Set page title + breadcrumb
   function setHeaderAndBreadcrumb() {
@@ -202,6 +205,10 @@
   // Main load function
   async function init() {
     try {
+      if (!fetchAllCountries || !countryToCardData || !mapRegion || !EXCLUDED_COUNTRIES) {
+        throw new Error("GlobalVillageCountries helpers not found on window.");
+      }
+
       // Load all countries from API
       let allCountries = await fetchAllCountries();
 
@@ -224,6 +231,27 @@
       }
 
       renderCountryGrid(cardData);
+
+      // ✅ NEW: If we arrived via ?country=Name, auto-open that country's overlay
+      if (selectedCountry) {
+        const wanted = selectedCountry.trim().toLowerCase();
+
+        // try exact match first
+        let match = cardData.find(
+          (c) => (c.name || "").trim().toLowerCase() === wanted
+        );
+
+        // fallback: contains match (helps if user has extra words/spaces)
+        if (!match) {
+          match = cardData.find(
+            (c) => (c.name || "").trim().toLowerCase().includes(wanted)
+          );
+        }
+
+        if (match) {
+          openDetail(match);
+        }
+      }
     } catch (err) {
       console.error(err);
       gridEl.innerHTML = "";

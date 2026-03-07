@@ -242,7 +242,74 @@ body {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.pixel-mode-under-map:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 0 rgba(56, 189, 248, 0.65);
+/* ===== Glowing Pixel Mode Button ===== */
+
+.button-85 {
+  padding: 0.8em 2.4em;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  background: #020617;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.button-85:hover {
+  transform: translateY(-3px);
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(7px);
+  -webkit-filter: blur(7px);
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  animation: glowing-button-85 20s linear infinite;
+  border-radius: 18px;
+}
+
+@keyframes glowing-button-85 {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #020617;
+  left: 0;
+  top: 0;
+  border-radius: 16px;
+}
+.continent-label {
+  font-weight: 700;
+  fill: #334155;
+  pointer-events: none;
 }

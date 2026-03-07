@@ -3,7 +3,6 @@ class CustomNavbar extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     const current = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-
     const isActive = (file) => current === file;
 
     this.shadowRoot.innerHTML = `
@@ -206,6 +205,7 @@ class CustomNavbar extends HTMLElement {
               <nav class="nav" aria-label="Main navigation">
                 <a class="link ${isActive("index.html") ? "active" : ""}" href="index.html">Home</a>
                 <a class="link ${isActive("countries.html") ? "active" : ""}" href="countries.html">Countries</a>
+                <a class="link ${isActive("food.html") ? "active" : ""}" href="food.html">Food</a>
                 <a class="link ${isActive("guess-the-flag.html") ? "active" : ""}" href="guess-the-flag.html">Guess The Flag</a>
                 <a class="link ${isActive("about.html") ? "active" : ""}" href="about.html">About</a>
               </nav>
@@ -220,6 +220,7 @@ class CustomNavbar extends HTMLElement {
                 <div class="mobileLinks" aria-label="Mobile navigation">
                   <a class="link ${isActive("index.html") ? "active" : ""}" href="index.html">Home</a>
                   <a class="link ${isActive("countries.html") ? "active" : ""}" href="countries.html">Countries</a>
+                  <a class="link ${isActive("food.html") ? "active" : ""}" href="food.html">Food</a>
                   <a class="link ${isActive("guess-the-flag.html") ? "active" : ""}" href="guess-the-flag.html">Guess The Flag</a>
                   <a class="link ${isActive("about.html") ? "active" : ""}" href="about.html">About</a>
                 </div>
@@ -257,7 +258,6 @@ class CustomNavbar extends HTMLElement {
     this.shadowRoot.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeMenu();
     });
-
 
     window.addEventListener("resize", () => {
       if (window.innerWidth > 760) closeMenu();

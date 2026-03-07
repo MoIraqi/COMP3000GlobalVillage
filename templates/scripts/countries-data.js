@@ -1,5 +1,4 @@
 // scripts/countries-data.js
-// Helper utilities for loading all countries (except Israel)
 
 // Countries to exclude
 const EXCLUDED_COUNTRIES = new Set(["Israel"]);
