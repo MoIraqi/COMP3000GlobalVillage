@@ -658,7 +658,7 @@
       console.error(e);
       gridEl.innerHTML = `
         <div class="col-span-full bg-red-50 text-red-700 p-4 rounded-2xl text-sm border border-red-200">
-          Sorry bestie — I couldn’t load the food data right now.
+          Sorry — I couldn’t load the food data right now.
         </div>
       `;
     }

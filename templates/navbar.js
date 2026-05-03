@@ -9,20 +9,17 @@ class CustomNavbar extends HTMLElement {
       <style>
         :host { display:block; }
 
-        /* Sticky top bar */
         .wrap{
           position: sticky;
           top: 0;
           z-index: 999;
         }
 
-        /* Background */
         .bar{
           background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #ec4899 120%);
           box-shadow: 0 10px 30px rgba(15, 23, 42, .18);
         }
 
-        /* Glass layer */
         .glass{
           background: rgba(255,255,255,.08);
           backdrop-filter: blur(10px);
@@ -68,17 +65,19 @@ class CustomNavbar extends HTMLElement {
           letter-spacing: .2px;
           line-height: 1;
         }
+
         .subtitle{
           font-size: 12px;
           opacity: .85;
           line-height: 1.1;
         }
 
-        /* Desktop nav */
         .nav{
           display:flex;
           align-items:center;
           gap: 8px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
         }
 
         .link{
@@ -108,14 +107,12 @@ class CustomNavbar extends HTMLElement {
           transform: translateY(0px) scale(.99);
         }
 
-        /* Active page pill */
         .link.active{
           background: rgba(255,255,255,.20);
           border: 1px solid rgba(255,255,255,.22);
           color: #fff;
         }
 
-        /* Cute underline accent for active */
         .link.active::after{
           content:"";
           position:absolute;
@@ -128,7 +125,6 @@ class CustomNavbar extends HTMLElement {
           opacity: .9;
         }
 
-        /* Mobile menu button */
         .menuBtn{
           display:none;
           align-items:center;
@@ -142,14 +138,21 @@ class CustomNavbar extends HTMLElement {
           cursor: pointer;
           transition: transform 140ms ease, background 140ms ease;
         }
-        .menuBtn:hover{ background: rgba(255,255,255,.18); transform: translateY(-1px); }
-        .menuBtn:active{ transform: translateY(0px) scale(.99); }
 
-        /* Mobile dropdown */
+        .menuBtn:hover{
+          background: rgba(255,255,255,.18);
+          transform: translateY(-1px);
+        }
+
+        .menuBtn:active{
+          transform: translateY(0px) scale(.99);
+        }
+
         .mobilePanel{
           display:none;
           padding: 0 18px 16px;
         }
+
         .mobileInner{
           max-width: 1100px;
           margin: 0 auto;
@@ -159,11 +162,13 @@ class CustomNavbar extends HTMLElement {
           overflow:hidden;
           box-shadow: 0 18px 30px rgba(15,23,42,.18);
         }
+
         .mobileLinks{
           display:grid;
           gap: 6px;
           padding: 12px;
         }
+
         .mobileLinks .link{
           justify-content:flex-start;
           width: 100%;
@@ -171,9 +176,13 @@ class CustomNavbar extends HTMLElement {
           border-radius: 14px;
           font-size: 14px;
         }
-        .mobileLinks .link.active::after{ left: 12px; right: 12px; bottom: 8px; }
 
-        /* Responsive */
+        .mobileLinks .link.active::after{
+          left: 12px;
+          right: 12px;
+          bottom: 8px;
+        }
+
         @media (max-width: 760px){
           .nav{ display:none; }
           .menuBtn{ display:inline-flex; }
@@ -181,10 +190,8 @@ class CustomNavbar extends HTMLElement {
           .title{ font-size: 16px; }
         }
 
-        /* Open state */
         .open .mobilePanel{ display:block; }
 
-        /* Reduce motion */
         @media (prefers-reduced-motion: reduce){
           .link, .menuBtn{ transition:none !important; }
         }
@@ -198,7 +205,7 @@ class CustomNavbar extends HTMLElement {
                 <span class="logo">🌍</span>
                 <div>
                   <div class="title">Global Village</div>
-                  <div class="subtitle">Explore cultures worldwide</div>
+                  <div class="subtitle">Explore cultures, food and games</div>
                 </div>
               </a>
 
@@ -207,6 +214,7 @@ class CustomNavbar extends HTMLElement {
                 <a class="link ${isActive("countries.html") ? "active" : ""}" href="countries.html">Countries</a>
                 <a class="link ${isActive("food.html") ? "active" : ""}" href="food.html">Food</a>
                 <a class="link ${isActive("guess-the-flag.html") ? "active" : ""}" href="guess-the-flag.html">Guess The Flag</a>
+                <a class="link ${isActive("country-scramble.html") ? "active" : ""}" href="country-scramble.html">Word Scramble</a>
                 <a class="link ${isActive("about.html") ? "active" : ""}" href="about.html">About</a>
               </nav>
 
@@ -222,6 +230,7 @@ class CustomNavbar extends HTMLElement {
                   <a class="link ${isActive("countries.html") ? "active" : ""}" href="countries.html">Countries</a>
                   <a class="link ${isActive("food.html") ? "active" : ""}" href="food.html">Food</a>
                   <a class="link ${isActive("guess-the-flag.html") ? "active" : ""}" href="guess-the-flag.html">Guess The Flag</a>
+                  <a class="link ${isActive("country-scramble.html") ? "active" : ""}" href="country-scramble.html">Word Scramble</a>
                   <a class="link ${isActive("about.html") ? "active" : ""}" href="about.html">About</a>
                 </div>
               </div>
@@ -249,12 +258,10 @@ class CustomNavbar extends HTMLElement {
 
     btn.addEventListener("click", toggleMenu);
 
-    // Close menu when clicking a link
     this.shadowRoot.querySelectorAll(".mobileLinks a").forEach((a) => {
       a.addEventListener("click", closeMenu);
     });
 
-    // Close on ESC
     this.shadowRoot.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeMenu();
     });

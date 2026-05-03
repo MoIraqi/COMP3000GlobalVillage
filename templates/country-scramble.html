@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Village • Country Scramble</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="navbar.js" defer></script>
+  <script src="country-scramble.js" defer></script>
+</head>
+
+<body class="bg-slate-100 text-slate-800">
+  <custom-navbar></custom-navbar>
+
+  <main class="container mx-auto px-6 pt-12 pb-20">
+    <div class="mb-6 flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold">Country Word Scramble</h1>
+        <p class="text-slate-600 mt-1">Unscramble the country name before the timer runs out 🌍</p>
+      </div>
+      <a href="index.html" class="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:underline">
+        ← Back to Home
+      </a>
+    </div>
+
+    <section class="rounded-2xl bg-white shadow-lg border border-slate-200 p-5 md:p-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <p class="text-xs text-slate-500">Question</p>
+            <p class="text-lg font-bold text-slate-800">
+              <span id="qIndex">1</span> / <span id="qTotal">10</span>
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <p class="text-xs text-slate-500">Score</p>
+            <p class="text-lg font-bold text-slate-800">
+              <span id="score">0</span>
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <p class="text-xs text-slate-500">Time left</p>
+            <p class="text-lg font-bold text-slate-800">
+              <span id="timer">15</span>s
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <label for="difficulty" class="text-sm font-medium text-slate-700">Difficulty</label>
+          <select
+            id="difficulty"
+            class="px-4 py-2 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="easy">Easy</option>
+            <option value="hard">Hard</option>
+          </select>
+
+          <button
+            id="restartBtn"
+            class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition font-medium"
+          >
+            Restart
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-8 grid lg:grid-cols-2 gap-6 items-start">
+        <div class="rounded-2xl bg-white border border-slate-200 shadow-sm p-6">
+          <p class="text-sm text-slate-500 mb-2">Unscramble this country:</p>
+
+          <div class="rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 text-white p-6 shadow-md">
+            <p id="scrambleWord" class="text-3xl md:text-4xl font-extrabold tracking-[0.25em] text-center break-words">
+              A N A P J
+            </p>
+          </div>
+
+          <p id="hintText" class="mt-4 text-sm text-slate-500"></p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 shadow-sm p-5">
+          <div id="choices" class="grid grid-cols-1 gap-3"></div>
+
+          <div class="mt-5 flex items-center justify-between gap-3">
+            <div id="feedback" class="text-sm font-medium text-slate-700"></div>
+
+            <button
+              id="nextBtn"
+              class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="endScreen"
+        class="hidden mt-8 rounded-2xl border border-slate-200 bg-white p-6"
+      >
+        <h2 class="text-2xl font-bold text-slate-800">Game complete ✨</h2>
+        <p class="text-slate-600 mt-2">
+          You scored
+          <span class="font-bold text-slate-800" id="finalScore">0</span>
+          /
+          <span id="finalTotal">10</span>.
+        </p>
+        <button
+          id="playAgainBtn"
+          class="mt-4 px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
+        >
+          Play again
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 text-center text-sm text-slate-500">
+    Created by Mo
+  </footer>
+</body>
+</html>
