@@ -3,7 +3,7 @@
 // Countries to exclude
 const EXCLUDED_COUNTRIES = new Set(["Israel"]);
 
-// Map REST Countries regions/subregions into your standard continent names
+// Map REST Countries regions/subregions into standard continent names
 function mapRegion(country) {
   const region = country.region || "";
   const subregion = country.subregion || "";
@@ -25,7 +25,7 @@ function mapRegion(country) {
 function countryToCardData(country) {
   const name = country.name?.common || "Unknown";
 
-  // For filtering in your app (continent-style)
+  // For filtering in the app (continent-style)
   const region = mapRegion(country);
 
   // For display (actual API region/subregion)
@@ -49,7 +49,7 @@ function countryToCardData(country) {
 
   return {
     name,
-    region,      // mapped continent label (used by your filter)
+    region,      // mapped continent label (used by the filter)
     apiRegion,   // real region from API (shown in detail)
     subregion,
     capital,
